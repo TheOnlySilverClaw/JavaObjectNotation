@@ -2,8 +2,6 @@
 
 ## Loading
 ```java
-		JONEntity testEntity = new JONEntity("test");
-		
 		try(JONReader in = new JONReader(new BufferedInputStream(
 		    Example.class.getResourceAsStream("test.jon")))) {
 			
