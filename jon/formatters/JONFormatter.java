@@ -6,6 +6,8 @@ public interface JONFormatter {
 	
 	String entityStart();
 	
+	String entityEnd(int level);
+	
 	String afterEntity();
 	
 	String beforeValue(int level);

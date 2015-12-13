@@ -14,6 +14,7 @@ public class JONInefficientFormatter implements JONFormatter {
 		return System.lineSeparator() + System.lineSeparator();
 	}
 	
+	@Override
 	public String entityEnd(int nestingLevels) {
 		
 		String indent = "";

@@ -40,9 +40,9 @@ public class JONReader extends InputStreamReader {
 
 	public JONEntity readEntity() throws IOException {
 		
-		int last = 0;
+		int last = -1;
 		JONEntity entity = null;
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(1024);
 		do {
 			last = read();
 			// fuck whitespace
@@ -102,6 +102,50 @@ public class JONReader extends InputStreamReader {
 		return entity;
 	}
 	
+	public JONValue readValue() throws IOException {
+		
+		int last = -1;
+		
+		StringBuilder buffer = new StringBuilder(64);
+		String name = null;
+		String type = null;
+		
+		do {
+			last = read();
+			
+			char lastChar = (char) last;
+			
+			switch(lastChar) {
+				
+			case VALUE_TAGGER:
+				
+				name = buffer.toString();
+				clear(buffer);
+				break;
+			
+			case VALUE_START:
+				
+				type = buffer.toString();
+				clear(buffer);
+				break;
+				
+			case VALUE_END:
+				
+				if(name == null) throw new JONReadException("Name was null!");
+				if(type == null) throw new JONReadException("Type was null");
+				if(name.isEmpty()) throw new JONReadException("Name was empty!");
+				if(type.isEmpty()) throw new JONReadException("Type was empty!");
+				return new JONValue(name, type, buffer.toString());
+			default:
+				buffer.append(lastChar);
+				break;
+			}
+		} while(last != -1);
+		
+		return null;
+	}
+	
+	// if anyone knows a better way to reuse a StringBuilder, tell me
 	private static void clear(StringBuilder buffer) {
 		
 		buffer.setLength(0);

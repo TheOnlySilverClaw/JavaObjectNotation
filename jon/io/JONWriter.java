@@ -6,6 +6,8 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+
+import jon.formatters.JONFormatter;
 import jon.formatters.JONInefficientFormatter;
 import jon.model.JONEntity;
 import jon.model.JONModel;
@@ -19,30 +21,31 @@ public class JONWriter extends OutputStreamWriter {
 		
 	public JONWriter(OutputStream out, Charset cs) {
 		super(out, cs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public JONWriter(OutputStream out, CharsetEncoder enc) {
 		super(out, enc);
-		// TODO Auto-generated constructor stub
 	}
 
 	public JONWriter(OutputStream out, String charsetName) throws UnsupportedEncodingException {
 		super(out, charsetName);
-		// TODO Auto-generated constructor stub
 	}
 
 	public JONWriter(OutputStream out) {
 		super(out);
-		// TODO Auto-generated constructor stub
 	}
 
-	public void writeEntity(JONEntity entity, JONInefficientFormatter formatter) throws IOException {
+	public void writeEntity(JONEntity entity) throws IOException {
+		
+		writeEntity(entity, new JONInefficientFormatter());
+	}
+	
+	public void writeEntity(JONEntity entity, JONFormatter formatter) throws IOException {
 				
 		writeNested(entity, formatter, 0);
 	}
 	
-	protected void writeNested(JONEntity entity, JONInefficientFormatter formatter, int level) throws IOException {
+	protected void writeNested(JONEntity entity, JONFormatter formatter, int level) throws IOException {
 		
 		write(formatter.beforeEntity(level));
 		write(entity.getName());
