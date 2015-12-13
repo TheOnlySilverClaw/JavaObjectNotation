@@ -18,6 +18,8 @@
 ```
 
 ## Syntax
+
+JON files can be written with lots of nice whitespace, so eveything looks neat and structured.
 ```
 # some comment #
 
@@ -40,4 +42,15 @@ test{
 	int_value:i(592)
 
 }
+```
+But it does not care for whitespace and you can leave it out save some bytes.
+
+```
+test{empty_child{}string_value:s(teststring)float_value:f(3.456)filled_child{char_value:c(e)}int_value:i(592)}
+```
+
+## Using the values
+
+``` java
+char testchar = testEntity.getEntity("filled_child").getValue("char_value").converted();
 ```
